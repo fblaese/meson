@@ -194,9 +194,12 @@ class GnuLikeCompiler(metaclass=abc.ABCMeta):
         # Hence, we don't need to differentiate between OS and ld
         # for the sake of adding as-needed support
         if self.compiler_type.is_osx_compiler:
-            return '-Wl,-dead_strip_dylibs'
+            return ['-Wl,-dead_strip_dylibs']
         else:
-            return '-Wl,--as-needed'
+            return ['-Wl,--as-needed']
+
+    def get_lundef_args(self):
+        return ['-Wl,--no-undefined']
 
     def get_pic_args(self) -> typing.List[str]:
         if self.compiler_type.is_osx_compiler or self.compiler_type.is_windows_compiler:
